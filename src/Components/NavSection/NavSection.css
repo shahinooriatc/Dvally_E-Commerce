@@ -1,0 +1,40 @@
+* {
+  text-decoration: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbarSection {
+  position: relative;
+}
+
+.navbarSection_container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+
+  padding: 5px;
+}
+
+.navmenu a {
+  margin-left: 25px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-expand .navbar-nav .dropdown-menu {
+  position: absolute;
+  width: 350px;
+}
+
+.td-buttons Button {
+  margin: 5px;
+}
+
+.sidecart {
+  position: fixed;
+  top: 50%;
+  right: 0;
+}

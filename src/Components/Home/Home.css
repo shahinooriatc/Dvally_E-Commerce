@@ -1,0 +1,14 @@
+.banner {
+    background-image: url(../../../public/images/robo1.jpg);
+    width: 100%;
+    /* min-height: 20vh; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.category {}
+
+.category {
+    cursor: pointer;
+}
