@@ -6,10 +6,10 @@ import registration from "../../../registration.png";
 
 
 const Login = () => {
-    // const { search } = useLocation()
-    // console.log(search);
-    // const redirectUrl = new useSearchParams(search).get('redirect')
-    // const redirect = redirectUrl ? redirectUrl : "/";
+    const { search } = useLocation()
+    console.log(search);
+    const redirectUrl = new useSearchParams(search).get('redirect')
+    const redirect = redirectUrl ? redirectUrl : "/";
 
     return (
         <>

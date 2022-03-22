@@ -79,6 +79,7 @@ const Products = () => {
 
   //Product WishList Here.........
   const handleAddToWish = (product) => {
+    console.log(product);
     dispatchWish({
       type: 'ADD_TO_WISH',
       payload: { ...product }

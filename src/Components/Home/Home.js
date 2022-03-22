@@ -33,6 +33,7 @@ const Home = () => {
                 }
             })
             setAllCategory(categoryArr)
+            setseparateCategory(allProduct)
         }
         handleCategoryMatch()
     }, [])
@@ -49,8 +50,8 @@ const Home = () => {
 
                 <Container>
                     <div className='category' style={{ width: '300px', minHeigth: '500px' }}>
-                        {allCategory.map((item,primary) => (
-                            <ListGroup  key={primary}>
+                        {allCategory.map((item, primary) => (
+                            <ListGroup key={primary}>
                                 <ListGroup.Item onClick={() => handleLoadCategory(item)}>{item}<BsArrowRight size='2em' /></ListGroup.Item>
                             </ListGroup>
                         ))
