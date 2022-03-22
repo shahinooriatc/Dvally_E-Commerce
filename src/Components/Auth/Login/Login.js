@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Container, Form, Row, Col } from 'react-bootstrap';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { BsFillLockFill, BsFillUnlockFill, BsEnvelopeFill, BsFilePerson, BsPersonPlus } from 'react-icons/bs';
+import {Link} from 'react-router-dom'
+import {  useLocation, useSearchParams } from 'react-router-dom';
+import {  BsFillUnlockFill, BsEnvelopeFill,  BsPersonPlus } from 'react-icons/bs';
 import registration from "../../../registration.png";
 
 
@@ -71,7 +72,7 @@ const Login = () => {
                                 <div className="text-center border border-info alert alert-success" style={{}}>
                                     <h6>
                                         Don't have any account !
-                                        {/* <Link to={`/registration?redirect=${redirect}`} style={{ textDecoration: 'none' }}> Create a new account</Link> */}
+                                        <Link to={`/registration?redirect=${redirect}`} style={{ textDecoration: 'none' }}> Create a new account</Link>
 
                                     </h6>
                                 </div>
