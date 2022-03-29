@@ -10,6 +10,10 @@
   position: relative;
 }
 
+
+
+
+
 .navbarSection_container {
   position: -webkit-sticky;
   position: sticky;
@@ -19,14 +23,14 @@
 }
 
 .navmenu a {
-  margin-left: 25px;
+  /* margin-left: 25px; */
   color: #fff;
   text-decoration: none;
 }
 
 .navbar-expand .navbar-nav .dropdown-menu {
   position: absolute;
-  width: 350px;
+  width: 550px;
 }
 
 .td-buttons Button {

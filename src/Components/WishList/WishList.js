@@ -17,7 +17,7 @@ const WishList = () => {
 
     let handleAddToCartFromWish = async (product) => {
         handleRemoveItem(product)
-        const existingItem = cart.cartItems.find((item) => item._id == product._id)
+        const existingItem = cart.cartItems.find((item) => item._id === product._id)
         const quantity = existingItem ? existingItem.quantity + 1 : 1
         // const { data } = await axios.get(`/productcart/${product._id}`)
         // if (data.stock < quantity) {

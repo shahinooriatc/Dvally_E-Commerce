@@ -76,6 +76,7 @@ const Products = () => {
       type: "ADD_TO_CART",
       payload: { ...product, quantity },
     });
+    handleRemoveItemFromWish(product);
   };
 
   //Product Details Modal Here............
@@ -112,6 +113,13 @@ const Products = () => {
     contDispatch({
       type: "REMOVE_ITEM_FROM_CART",
       payload: items,
+    });
+  };
+
+  let handleRemoveItemFromWish = (product) => {
+    dispatchWish({
+      type: "REMOVE_ITEM_FROM_WISH",
+      payload: product,
     });
   };
 

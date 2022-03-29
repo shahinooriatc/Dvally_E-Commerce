@@ -43,6 +43,8 @@ const Home = () => {
         setseparateCategory(categoryData);
     }
 
+    
+
     return (
         <>
             <Helmet title="Dvally" />
