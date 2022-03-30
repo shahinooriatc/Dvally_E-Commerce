@@ -2,6 +2,7 @@ import { createContext, useReducer } from "react";
 
 const Store = createContext()
 
+//Cart Reducer...................
 const initialState = {
     cart: {
         cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
@@ -66,10 +67,33 @@ const reducerWish = (stateWish, action) => {
     }
 }
 
+//User SignIn Reducer...................
+const initialStateUserSignIn = {
+    userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+   
+}
+
+const reducerUserSignIn = (state, action) => {
+    switch (action.type) {
+        case "USER_SIGNIN":            
+            return { ...state, userInfo:action.payload }
+
+        case "USER_SIGNOUT":            
+            localStorage.setItem('userInfo', JSON.stringify(null))
+            return {
+                              
+            }
+        default:
+            return initialStateUserSignIn
+    }
+}
+
+
 function StoreProvider(props) {
     const [state, dispatch] = useReducer(reducer, initialState)
     const [stateWish, dispatchWish] = useReducer(reducerWish, initialStateWish)
-    const value = { state, dispatch, stateWish, dispatchWish }
+    const [stateUserSignIn, dispatchUserSignIn] = useReducer(reducerUserSignIn, initialStateUserSignIn)
+    const value = { state, dispatch, stateWish, dispatchWish,stateUserSignIn, dispatchUserSignIn }
     return <Store.Provider value={value}>{props.children}</Store.Provider>
 }
 

@@ -9,11 +9,14 @@ import {
   Table,
 } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import { Store } from "../../Store";
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from "react-icons/bs";
 
 const CartPage = () => {
+
+  let navigate = useNavigate();
+
   const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItems },
@@ -33,10 +36,10 @@ const CartPage = () => {
     });
   };
 
-  const navigate = useNavigate();
   const handleCheckOut = () => {
-    navigate("/signIn?navigate=payment");
+    navigate('/login?redirect=/paymentpage');
   };
+
   return (
     <>
       <Helmet title="Shopping Cart" />
@@ -142,7 +145,7 @@ const CartPage = () => {
                 className="btn btn-info w-100"
                 size="lg"
               >
-                Process To Payment
+                Process To CheckOut
               </Button>
             </Col>
             <Col></Col>

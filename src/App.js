@@ -9,6 +9,7 @@ import Registration from "./Components/Auth/Registration/Registration";
 import Login from "./Components/Auth/Login/Login";
 import Compare from "./Components/Compare/Compare";
 import WishList from "./Components/WishList/WishList";
+import Shipping from "./Components/Shipping/Shipping";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/productcart/:id" element={<Cart />} />
           <Route path="registration" element={<Registration />} />
           <Route path="login" element={<Login />} />
+          <Route path="paymentpage" element={<Shipping />} />
         </Routes>
       </BrowserRouter>
     </>

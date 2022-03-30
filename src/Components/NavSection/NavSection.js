@@ -81,145 +81,145 @@ const NavSection = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto navmenu">
-              
-                <Nav.Link>
-                  <Link to="/">Home</Link>
-                </Nav.Link>
-                <Nav.Link>
-                  <Link to="/products">Products</Link>
-                </Nav.Link>
-                <Nav.Link>
-                  <Link to="/compare">Compare</Link>
-                </Nav.Link>
-                  <NavDropdown title="Cart" id="collasible-nav-dropdown">
-                    {cartItems.map((item) => (
-                      <tbody key={item._id}>
-                        <tr>
-                          <td>
-                            <Link to={`/products/${item.slug}`}>
-                              <img src={item.img} style={{ height: "30px" }} />
-                            </Link>
-                          </td>
-                          <td>
-                            <Link
-                              to={`/products/${item.slug}`}
-                              style={{ color: "blue" }}
-                            >
-                              {item.name}
-                            </Link>
-                          </td>
-                          <td className="td-buttons">
-                            <Button
-                              onClick={() =>
-                                handleUpdateCartItem(item, item.quantity - 1)
-                              }
-                              variant="outline-danger"
-                              disabled={item.quantity === 1}
-                            >
-                              -
-                            </Button>
-                            <span>
-                              {" "}
-                              <Badge size="lg" className="p-1 mx-0">
-                                {item.quantity}
-                              </Badge>
-                            </span>
-                            <Button
-                              onClick={() =>
-                                handleUpdateCartItem(item, item.quantity + 1)
-                              }
-                              variant="outline-success"
-                              disabled={item.quantity === item.stock}
-                            >
-                              +
-                            </Button>
-                          </td>
-                          <td>
-                            <Button
-                              onClick={() => handleRemoveItem(item)}
-                              variant="danger"
-                            >
-                              <BsXLg size="1em" />
-                            </Button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    ))}
-                    <Dropdown.Divider />
-                    <Link to={"/productcart"}>
-                      <Button className="btn btn-info w-100">Go to Cart</Button>
-                    </Link>
-                  </NavDropdown>
+              <Nav.Link>
+                <Link to="/">Home</Link>
+              </Nav.Link>
+              <Nav.Link>
+                <Link to="/products">Products</Link>
+              </Nav.Link>
+              <Nav.Link>
+                <Link to="/compare">Compare</Link>
+              </Nav.Link>
+              <NavDropdown title="Cart" id="collasible-nav-dropdown">
+                {cartItems.map((item) => (
+                  <tbody key={item._id}>
+                    <tr>
+                      <td>
+                        <Link to={`/products/${item.slug}`}>
+                          <img src={item.img} style={{ height: "30px" }} />
+                        </Link>
+                      </td>
+                      <td>
+                        <Link
+                          to={`/products/${item.slug}`}
+                          style={{ color: "blue" }}
+                        >
+                          {item.name}
+                        </Link>
+                      </td>
+                      <td className="td-buttons">
+                        <Button
+                          onClick={() =>
+                            handleUpdateCartItem(item, item.quantity - 1)
+                          }
+                          variant="outline-danger"
+                          disabled={item.quantity === 1}
+                        >
+                          -
+                        </Button>
+                        <span>
+                          {" "}
+                          <Badge size="lg" className="p-1 mx-0">
+                            {item.quantity}
+                          </Badge>
+                        </span>
+                        <Button
+                          onClick={() =>
+                            handleUpdateCartItem(item, item.quantity + 1)
+                          }
+                          variant="outline-success"
+                          disabled={item.quantity === item.stock}
+                        >
+                          +
+                        </Button>
+                      </td>
+                      <td>
+                        <Button
+                          onClick={() => handleRemoveItem(item)}
+                          variant="danger"
+                        >
+                          <BsXLg size="1em" />
+                        </Button>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))}
+                <Dropdown.Divider />
+                <Link to={"/productcart"}>
+                  <Button className="btn btn-info w-100">Go to Cart</Button>
+                </Link>
+              </NavDropdown>
 
-                  <span>
-                    <Link to="/productcart">
-                      {state.cart.cartItems.length > 0 && (
-                        <Badge style={{ borderRadius: "50%" }} bg="danger">
-                          {state.cart.cartItems.length}
-                        </Badge>
-                      )}
-                    </Link>
-                  </span>
-                {/* //======================WishList=============================== */}
-                  <NavDropdown title="WishList" id="collasible-nav-dropdown">
-                    {wishItems.map((item) => (
-                      <tbody key={item._id}>
-                        <tr>
-                          <td>
-                            <Link to={`/products/${item.slug}`}>
-                              <img src={item.img} style={{ height: "30px" }} />
-                            </Link>
-                          </td>
-                          <td>
-                            <Link
-                              to={`/products/${item.slug}`}
-                              style={{ color: "blue" }}
-                            >
-                              {item.name}
-                            </Link>
-                          </td>
-                          <td className="td-buttons">
-                            <span>
-                              {" "}
-                              <Badge size="lg" className="p-1 mx-0">
-                                {item.quantity}
-                              </Badge>
-                            </span>
-                          </td>
-                          <td>
-                            <Button
-                              onClick={() => handleRemoveItemWish(item)}
-                              variant="danger"
-                              className="mt-1"
-                            >
-                              <BsXLg size="1em" />
-                            </Button>
-                            <Button
-                              onClick={() => handleAddToCartFromWish(item)}
-                              variant="info"
-                              className="ms-2"
-                            >
-                              Add to cart
-                            </Button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    ))}
-                    <Dropdown.Divider />
-                    <Link to={"/wishlist"}>
-                      <Button className="btn btn-info w-100">
-                        Go to WishList
-                      </Button>
-                    </Link>
-                  </NavDropdown>
-                  <Link to="/wishlist">
-                    {stateWish.wish.wishItems.length > 0 && (
-                      <Badge style={{ borderRadius: "50%" }} bg="danger">
-                        {stateWish.wish.wishItems.length}
-                      </Badge>
-                    )}
-                  </Link>
-              
+              <span>
+                <Link to="/productcart">
+                  {state.cart.cartItems.length > 0 && (
+                    <Badge style={{ borderRadius: "50%" }} bg="danger">
+                      {state.cart.cartItems.length}
+                    </Badge>
+                  )}
+                </Link>
+              </span>
+              {/* //======================WishList=============================== */}
+              <NavDropdown title="WishList" id="collasible-nav-dropdown">
+                {wishItems.map((item) => (
+                  <tbody key={item._id}>
+                    <tr>
+                      <td>
+                        <Link to={`/products/${item.slug}`}>
+                          <img src={item.img} style={{ height: "30px" }} />
+                        </Link>
+                      </td>
+                      <td>
+                        <Link
+                          to={`/products/${item.slug}`}
+                          style={{ color: "blue" }}
+                        >
+                          {item.name}
+                        </Link>
+                      </td>
+                      <td className="td-buttons">
+                        <span>
+                          {" "}
+                          <Badge size="lg" className="p-1 mx-0">
+                            {item.quantity}
+                          </Badge>
+                        </span>
+                      </td>
+                      <td>
+                        <Button
+                          onClick={() => handleRemoveItemWish(item)}
+                          variant="danger"
+                          className="mt-1"
+                        >
+                          <BsXLg size="1em" />
+                        </Button>
+                        <Button
+                          onClick={() => handleAddToCartFromWish(item)}
+                          variant="info"
+                          className="ms-2"
+                        >
+                          Add to cart
+                        </Button>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))}
+                <Dropdown.Divider />
+                <Link to={"/wishlist"}>
+                  <Button className="btn btn-info w-100">Go to WishList</Button>
+                </Link>
+              </NavDropdown>
+              <Link to="/wishlist">
+                {stateWish.wish.wishItems.length > 0 && (
+                  <Badge style={{ borderRadius: "50%" }} bg="danger">
+                    {stateWish.wish.wishItems.length}
+                  </Badge>
+                )}
+              </Link>
+
+              <Nav.Link>
+                <Link to="/login">Login</Link>
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
