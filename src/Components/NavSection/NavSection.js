@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext,  useState } from "react";
 import {
   Badge,
   Container,
@@ -21,14 +21,24 @@ import {
 } from "react-icons/bs";
 
 const NavSection = () => {
-  const { state, dispatch, stateWish, dispatchWish } = useContext(Store);
+  const {
+    state,
+    dispatch,
+    stateWish,
+    dispatchWish,
+    stateUserSignIn,
+    dispatchUserSignIn,
+  } = useContext(Store);
+
   const { cart } = state;
   const {
-    cart: { cartItems },
-  } = state;
+        cart: { cartItems },
+        } = state;
   const {
     wish: { wishItems },
   } = stateWish;
+  const { userInfo } = stateUserSignIn;
+
 
   let handleUpdateCartItem = (item, quantity) => {
     dispatch({
@@ -53,13 +63,24 @@ const NavSection = () => {
 
   const handleAddToCartFromWish = (product) => {
     handleRemoveItemWish(product);
-    const existingItem = cart.cartItems.find((item) => item._id == product._id);
+    const existingItem = cart.cartItems.find(
+      (item) => item._id === product._id
+    );
     const quantity = existingItem ? existingItem.quantity + 1 : 1;
 
     dispatch({
       type: "ADD_TO_CART",
       payload: { ...product, quantity },
     });
+  }
+ 
+
+
+  const handleSignOut = () => {
+    dispatchUserSignIn({
+      type: "USER_SIGNOUT",
+    });
+    localStorage.removeItem('userInfo')
   };
 
   // SideCart Functions.......................
@@ -217,9 +238,25 @@ const NavSection = () => {
                 )}
               </Link>
 
-              <Nav.Link>
-                <Link to="/login">Login</Link>
-              </Nav.Link>
+              {userInfo ? (
+                <Nav>
+                  <NavDropdown
+                    id="nav-dropdown-dark-example"
+                    title={userInfo.name}
+                    menuVariant="dark"
+                  >
+                    <NavDropdown.Item to="/">Profiles</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item  onClick={handleSignOut}>
+                      SignOut
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+              ) : (
+                <Nav.Link>
+                  <Link to="/login">Login</Link>
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

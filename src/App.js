@@ -1,5 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./Components/Home/Home";
 import NavSection from "./Components/NavSection/NavSection";
 import Products from "./Components/Products/Products";
@@ -12,11 +14,11 @@ import WishList from "./Components/WishList/WishList";
 import Shipping from "./Components/Shipping/Shipping";
 
 function App() {
-
   return (
     <>
       <BrowserRouter>
         <NavSection />
+        <ToastContainer position="top-center" autoClose={2000} limit={1}/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route exact path="/products" element={<Products />} />

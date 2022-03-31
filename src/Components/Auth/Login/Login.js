@@ -1,28 +1,29 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsFillUnlockFill, BsEnvelopeFill, BsPersonPlus } from "react-icons/bs";
 import registration from "../../../registration.png";
 import axios from "axios";
 import { Store } from "../../../Store";
+import { toast } from "react-toastify";
 
 const Login = () => {
-    const navigate = useNavigate()
-  const { search } = useLocation();  
+  const navigate = useNavigate();
+  const { search } = useLocation();
   const redirectUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectUrl ? redirectUrl : "/";
-  
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const {stateUserSignIn, dispatchUserSignIn} = useContext(Store)
+  const { stateUserSignIn, dispatchUserSignIn } = useContext(Store);
+  const { userInfo } = stateUserSignIn;
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      let { data } = await axios.post("/api/user/signin", {
+      const { data } = await axios.post("/api/user/signin", {
         email,
         password,
       });
@@ -30,12 +31,23 @@ const Login = () => {
         type: "USER_SIGNIN",
         payload: data,
       });
-      localStorage.setItem('userInfo', JSON.stringify(data))
-      navigate(redirect || '/')
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      navigate(redirect || "/");
+      toast.success("Logged In Successfully Done");
     } catch (error) {
-      console.log(error);
+      if (!email && !password) {
+        toast.error("Please Enter User name & Password");
+      } else {
+        toast.error("Wrong User name or Password");
+      }
     }
   };
+  //Redirect after Login.........
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, []);
 
   return (
     <>
