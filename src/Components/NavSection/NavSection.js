@@ -10,7 +10,7 @@ import {
   Table,
   Button,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import "./NavSection.css";
 import { Store } from "../../Store";
 import {
@@ -21,6 +21,7 @@ import {
 } from "react-icons/bs";
 
 const NavSection = () => {
+  const navigate = useNavigate()
   const {
     state,
     dispatch,
@@ -81,6 +82,8 @@ const NavSection = () => {
       type: "USER_SIGNOUT",
     });
     localStorage.removeItem('userInfo')
+    localStorage.removeItem('shippingaddress')
+    navigate('/')
   };
 
   // SideCart Functions.......................

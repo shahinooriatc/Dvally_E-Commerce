@@ -97,7 +97,23 @@ const reducerUserSignIn = (state, action) => {
       return { ...state, userInfo: action.payload };
 
     case "USER_SIGNOUT":
-      return { ...state, userInfo: null };
+      return { ...state, userInfo: null, };
+    default:
+      return state;
+  }
+};
+
+//Payment Shipping address Reducer...................
+const initialStateShipping = {
+  shippingaddress: localStorage.getItem("shippingaddress")
+    ? JSON.parse(localStorage.getItem("shippingaddress"))
+    : {},
+};
+const reducerShipping = (state, action) => {
+  switch (action.type) {
+    case "SHIPPING_ADDRESS":     
+      return { ...state, shippingaddress: action.payload };
+
     default:
       return state;
   }
@@ -106,10 +122,9 @@ const reducerUserSignIn = (state, action) => {
 function StoreProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [stateWish, dispatchWish] = useReducer(reducerWish, initialStateWish);
-  const [stateUserSignIn, dispatchUserSignIn] = useReducer(
-    reducerUserSignIn,
-    initialStateUserSignIn
-  );
+  const [stateUserSignIn, dispatchUserSignIn] = useReducer(  reducerUserSignIn,    initialStateUserSignIn  );
+  const [stateShipping, dispatchShipping] = useReducer(    reducerShipping,    initialStateShipping  );
+
   const value = {
     state,
     dispatch,
@@ -117,6 +132,8 @@ function StoreProvider(props) {
     dispatchWish,
     stateUserSignIn,
     dispatchUserSignIn,
+    stateShipping,
+    dispatchShipping,
   };
   return <Store.Provider value={value}>{props.children}</Store.Provider>;
 }

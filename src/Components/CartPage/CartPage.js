@@ -37,7 +37,7 @@ const CartPage = () => {
   };
 
   const handleCheckOut = () => {
-    navigate('/login?redirect=/paymentpage');
+    navigate('/login?redirect=/shipping');
   };
 
   return (

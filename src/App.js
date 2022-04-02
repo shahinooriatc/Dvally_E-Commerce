@@ -12,13 +12,16 @@ import Login from "./Components/Auth/Login/Login";
 import Compare from "./Components/Compare/Compare";
 import WishList from "./Components/WishList/WishList";
 import Shipping from "./Components/Shipping/Shipping";
+import Payment from "./Components/Payment/Payment";
 
 function App() {
+
+
   return (
     <>
       <BrowserRouter>
         <NavSection />
-        <ToastContainer position="top-center" autoClose={2000} limit={1}/>
+        <ToastContainer position="bottom-center" autoClose={2000} limit={1}/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route exact path="/products" element={<Products />} />
@@ -29,7 +32,8 @@ function App() {
           <Route path="/productcart/:id" element={<Cart />} />
           <Route path="registration" element={<Registration />} />
           <Route path="login" element={<Login />} />
-          <Route path="paymentpage" element={<Shipping />} />
+          <Route path="shipping" element={<Shipping />} />
+          <Route path="payment" element={<Payment />} />
         </Routes>
       </BrowserRouter>
     </>

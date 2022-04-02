@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { search } = useLocation();
+  const { search, state } = useLocation();
   const redirectUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectUrl ? redirectUrl : "/";
 
@@ -20,6 +20,13 @@ const Login = () => {
 
   const { stateUserSignIn, dispatchUserSignIn } = useContext(Store);
   const { userInfo } = stateUserSignIn;
+
+  if(state){
+    toast.success(state)
+  }else{
+    toast.error('Please Try to Register first!!')
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
