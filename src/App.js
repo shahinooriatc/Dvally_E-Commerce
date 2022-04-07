@@ -13,6 +13,8 @@ import Compare from "./Components/Compare/Compare";
 import WishList from "./Components/WishList/WishList";
 import Shipping from "./Components/Shipping/Shipping";
 import Payment from "./Components/Payment/Payment";
+import CheckoutStep from "./Components/CheckoutStep/CheckoutStep";
+import PlaceOrder from "./Components/PlaceOrder/PlaceOrder";
 
 function App() {
 
@@ -21,7 +23,7 @@ function App() {
     <>
       <BrowserRouter>
         <NavSection />
-        <ToastContainer position="bottom-center" autoClose={2000} limit={1}/>
+        <ToastContainer position="bottom-center" autoClose={2000} limit={1} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route exact path="/products" element={<Products />} />
@@ -34,6 +36,8 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="shipping" element={<Shipping />} />
           <Route path="payment" element={<Payment />} />
+          <Route path="checkoutstep" element={<CheckoutStep />} />
+          <Route path="placeorder" element={<PlaceOrder />} />
         </Routes>
       </BrowserRouter>
     </>

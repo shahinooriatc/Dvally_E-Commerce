@@ -23,8 +23,6 @@ const Login = () => {
 
   if(state){
     toast.success(state)
-  }else{
-    toast.error('Please Try to Register first!!')
   }
 
   const handleLogin = async (e) => {

@@ -5,59 +5,81 @@ import { Link, useNavigate } from "react-router-dom";
 import { BsCurrencyDollar } from "react-icons/bs";
 import registration from "../../registration.png";
 import { Store } from "../../Store";
+import CheckoutStep from "../CheckoutStep/CheckoutStep";
+import { toast } from "react-toastify";
 const Shipping = () => {
-  const {stateUserSignIn, stateShipping, dispatchShipping } = useContext(Store);
+  const { stateUserSignIn, stateShipping, dispatchShipping } =
+    useContext(Store);
   const navigate = useNavigate();
-  const {userInfo} =stateUserSignIn
-  const [fullName, setFullName] = useState(    stateShipping.shippingaddress.fullName || ""  );
-  const [address, setAddress] = useState(    stateShipping.shippingaddress.address || ""  );
+  const { userInfo } = stateUserSignIn;
+  const [fullName, setFullName] = useState(
+    stateShipping.shippingaddress.fullName || ""
+  );
+  const [address, setAddress] = useState(
+    stateShipping.shippingaddress.address || ""
+  );
   const [city, setCity] = useState(stateShipping.shippingaddress.city || "");
-  const [postalcode, setPostalcode] = useState(    stateShipping.shippingaddress.postalcode || ""  );
-  const [country, setCountry] = useState(    stateShipping.shippingaddress.country || ""  );
+  const [postalcode, setPostalcode] = useState(
+    stateShipping.shippingaddress.postalcode || ""
+  );
+  const [country, setCountry] = useState(
+    stateShipping.shippingaddress.country || ""
+  );
 
   const handleContinuePayment = (e) => {
     e.preventDefault();
-    dispatchShipping({
-      type: "SHIPPING_ADDRESS",
-      payload: {
-        fullName,
-        address,
-        city,
-        postalcode,
-        country,
-      },
-    });
-    localStorage.setItem(
-      "shippingaddress",
-      JSON.stringify({
-        fullName,
-        address,
-        city,
-        postalcode,
-        country,
-      })
-    );
-    navigate("/payment");
-  };
+    if (fullName && address && city && postalcode && country) {
+      if (fullName !== address && city !== country) {
+        dispatchShipping({
+          type: "SHIPPING_ADDRESS",
+          payload: {
+            fullName,
+            address,
+            city,
+            postalcode,
+            country,
+          },
+        });
+        localStorage.setItem(
+          "shippingaddress",
+          JSON.stringify({
+            fullName,
+            address,
+            city,
+            postalcode,
+            country,
+          })
+        );
+        navigate("/payment");
+      }else{
+        toast.error('Please Enter Valid Name & Address ')
+      }
+    }  
+    else {
+      toast.error("All Input Fields are required!")      
+  }
+  }
 
-  useEffect(()=>{
-    if(!userInfo){
-      navigate('/login?redirect=/shipping')
-      
+
+  
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/login?redirect=/shipping");
     }
-  },[])
+  }, []);
 
   return (
     <>
-      <Helmet title="Payment" />
+      <Helmet title="Shipping" />
       <div style={{ height: "100vh", marginTop: "25px" }}>
+        <CheckoutStep step1="true" step2="true" />
         <Container className="shadow" style={{ padding: "15px" }}>
           <Row>
             <Col xs={6}>
               <div style={{ textAlign: "center" }}>
                 <BsCurrencyDollar fontSize="4em" />
                 <h1 style={{ textAlign: "center", marginTop: "25px" }}>
-                  User Shipping Information
+                  User Shipping Address
                 </h1>
               </div>
               {/* {errorMsg ?
@@ -112,7 +134,7 @@ const Shipping = () => {
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Postal Code </Form.Label>
                   <Form.Control
-                    type="code"
+                    type="number"
                     placeholder="Postal Code"
                     name="postalcode"
                     value={postalcode}
@@ -171,7 +193,7 @@ const Shipping = () => {
                     Try Another Way !
                     <Link to="/login" style={{ textDecoration: "none" }}>
                       {" "}
-                      All Payment Getway
+                      All Payment Gateway
                     </Link>
                   </h6>
                 </div>

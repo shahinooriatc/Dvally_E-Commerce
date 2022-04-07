@@ -41,4 +41,16 @@
   position: fixed;
   top: 50%;
   right: 0;
+  
+}
+
+.cart_item {
+  height: 35px;
+  margin-left: -32px;
+  padding: 5px;
+  color: white;
+  background: #fd03b2;
+  height: 100%;
+  font-size: 20px;
+  border-radius: 30%;
 }

@@ -97,7 +97,7 @@ const reducerUserSignIn = (state, action) => {
       return { ...state, userInfo: action.payload };
 
     case "USER_SIGNOUT":
-      return { ...state, userInfo: null, };
+      return { ...state, userInfo: null };
     default:
       return state;
   }
@@ -111,9 +111,25 @@ const initialStateShipping = {
 };
 const reducerShipping = (state, action) => {
   switch (action.type) {
-    case "SHIPPING_ADDRESS":     
+    case "SHIPPING_ADDRESS":
       return { ...state, shippingaddress: action.payload };
 
+    default:
+      return state;
+  }
+};
+
+//PaymentMethod Reducer...................
+const initialStatePaymentMethod = {
+  paymentMethod: localStorage.getItem("paymentMethod")
+    ? JSON.parse(localStorage.getItem("paymentMethod"))
+    : '',
+};
+const reducerPaymentMethod = (state, action) => {
+  console.log(action.payload);
+  switch (action.type) {
+    case "PAYMENT_METHOD":
+      return { ...state, paymentMethod: action.payload }
     default:
       return state;
   }
@@ -122,8 +138,18 @@ const reducerShipping = (state, action) => {
 function StoreProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [stateWish, dispatchWish] = useReducer(reducerWish, initialStateWish);
-  const [stateUserSignIn, dispatchUserSignIn] = useReducer(  reducerUserSignIn,    initialStateUserSignIn  );
-  const [stateShipping, dispatchShipping] = useReducer(    reducerShipping,    initialStateShipping  );
+  const [stateUserSignIn, dispatchUserSignIn] = useReducer(
+    reducerUserSignIn,
+    initialStateUserSignIn
+  );
+  const [stateShipping, dispatchShipping] = useReducer(
+    reducerShipping,
+    initialStateShipping
+  );
+  const [statePaymentMethod, dispatchPaymentMethod] = useReducer(
+    reducerPaymentMethod,
+    initialStatePaymentMethod
+  );
 
   const value = {
     state,
@@ -134,6 +160,8 @@ function StoreProvider(props) {
     dispatchUserSignIn,
     stateShipping,
     dispatchShipping,
+    statePaymentMethod,
+    dispatchPaymentMethod,
   };
   return <Store.Provider value={value}>{props.children}</Store.Provider>;
 }

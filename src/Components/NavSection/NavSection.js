@@ -1,4 +1,4 @@
-import { useContext,  useState } from "react";
+import { useContext, useState } from "react";
 import {
   Badge,
   Container,
@@ -10,7 +10,7 @@ import {
   Table,
   Button,
 } from "react-bootstrap";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./NavSection.css";
 import { Store } from "../../Store";
 import {
@@ -21,7 +21,7 @@ import {
 } from "react-icons/bs";
 
 const NavSection = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     state,
     dispatch,
@@ -33,13 +33,12 @@ const NavSection = () => {
 
   const { cart } = state;
   const {
-        cart: { cartItems },
-        } = state;
+    cart: { cartItems },
+  } = state;
   const {
     wish: { wishItems },
   } = stateWish;
   const { userInfo } = stateUserSignIn;
-
 
   let handleUpdateCartItem = (item, quantity) => {
     dispatch({
@@ -73,23 +72,23 @@ const NavSection = () => {
       type: "ADD_TO_CART",
       payload: { ...product, quantity },
     });
-  }
- 
-
+  };
 
   const handleSignOut = () => {
     dispatchUserSignIn({
       type: "USER_SIGNOUT",
     });
-    localStorage.removeItem('userInfo')
-    localStorage.removeItem('shippingaddress')
-    navigate('/')
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("shippingaddress");
+    navigate("/");
   };
 
   // SideCart Functions.......................
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  console.log(cartItems);
 
   return (
     <>
@@ -250,7 +249,7 @@ const NavSection = () => {
                   >
                     <NavDropdown.Item to="/">Profiles</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item  onClick={handleSignOut}>
+                    <NavDropdown.Item onClick={handleSignOut}>
                       SignOut
                     </NavDropdown.Item>
                   </NavDropdown>

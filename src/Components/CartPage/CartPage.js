@@ -96,7 +96,7 @@ const CartPage = () => {
                             handleUpdateCartItem(item, item.quantity + 1)
                           }
                           variant="outline-success"
-                          disabled={item.quantity == item.stock}
+                          disabled={item.quantity === item.stock}
                         >
                           <BsFillCaretRightFill />
                         </Button>
