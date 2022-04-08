@@ -33,8 +33,11 @@
   width: 550px;
 }
 
-.td-buttons Button {
-  margin: 5px;
+
+
+.dropdown-menu.show {
+  display: block;
+  width: 310px;
 }
 
 .sidecart {

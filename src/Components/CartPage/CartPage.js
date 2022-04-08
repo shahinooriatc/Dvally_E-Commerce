@@ -9,12 +9,12 @@ import {
   Table,
 } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Store } from "../../Store";
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from "react-icons/bs";
 
-const CartPage = () => {
-
+const CartPage = (props) => {
+  
   let navigate = useNavigate();
 
   const { state, dispatch } = useContext(Store);
@@ -37,9 +37,15 @@ const CartPage = () => {
   };
 
   const handleCheckOut = () => {
-    navigate('/login?redirect=/shipping');
+    navigate("/login?redirect=/shipping");
   };
 
+
+  let totalOrders =  cartItems.reduce((accumulator, current) => accumulator + current.quantity,    0  )
+  let totalAmount = cartItems.reduce((accumulator, current) =>accumulator + current.price * current.quantity,0);
+  let totalTax = totalAmount> 300 ? ((totalAmount*10)/100):10;
+  let shippingCharge = totalAmount> 300 ? ((totalAmount*5)/100):25;
+  let grandTotal = (totalAmount+totalTax+shippingCharge).toFixed(2)
   return (
     <>
       <Helmet title="Shopping Cart" />
@@ -51,9 +57,17 @@ const CartPage = () => {
           </Alert>
         ) : (
           <Row>
-            <Col lg={8}>
-              <h3>Your Ordered Cart</h3>
-              <hr />
+            <Col lg={props.placeOrderPage ? 12 : 8}>
+             {props.placeOrderPage?
+              <Alert className="text-center">
+                <h3>Preview Order</h3>
+              </Alert>
+                         :
+              <Alert className="text-center">
+                <h3>Your Ordered Cart</h3>
+              </Alert>
+            
+             }
               <Table striped bordered hover>
                 <thead>
                   <tr>
@@ -116,33 +130,26 @@ const CartPage = () => {
             </Col>
 
             <Col lg={4}>
-              <h3>Total Cart</h3>
-              <hr />
+              
+              <Alert>
+              <h3>Order Details</h3>
+              </Alert>
               <h5>Product Order :{cartItems.length} </h5>
               <h5>
-                Total Order :(
-                {cartItems.reduce(
-                  (accumulator, current) => accumulator + current.quantity,
-                  0
-                )}
-                ){" "}
+                Total Order : {totalOrders}
               </h5>
               <h5>
-                Total Amount :(
-                {cartItems.reduce(
-                  (accumulator, current) =>
-                    accumulator + current.price * current.quantity,
-                  0
-                )}
-                ){" "}
+                Total Amount : $   {totalAmount}/-                
               </h5>
-              <p>Tax(Vat) : </p>
-              <p>Shipping Charge : </p>
+              <p>Tax(Vat) : {totalTax} </p>
+              <p>Shipping Charge : {shippingCharge} </p>
               <hr />
-              <h4>Grand Total : </h4>
+              <h4>Grand Total : ${grandTotal} /-</h4>
               <Button
                 onClick={handleCheckOut}
-                className="btn btn-info w-100"
+                className={
+                  props.placeOrderPage ? "d-none" : "btn btn-info w-100"
+                }
                 size="lg"
               >
                 Process To CheckOut

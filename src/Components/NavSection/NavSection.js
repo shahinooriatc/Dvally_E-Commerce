@@ -9,6 +9,7 @@ import {
   Offcanvas,
   Table,
   Button,
+  ListGroup,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "./NavSection.css";
@@ -29,6 +30,7 @@ const NavSection = () => {
     dispatchWish,
     stateUserSignIn,
     dispatchUserSignIn,
+    dispatchShipping,
   } = useContext(Store);
 
   const { cart } = state;
@@ -76,8 +78,13 @@ const NavSection = () => {
 
   const handleSignOut = () => {
     dispatchUserSignIn({
-      type: "USER_SIGNOUT",
+      type: "USER_SIGNOUT",      
     });
+    dispatchShipping({
+      type:"SHIPPING_ADDRESS",
+      payload:{}
+    })
+
     localStorage.removeItem("userInfo");
     localStorage.removeItem("shippingaddress");
     navigate("/");
@@ -88,8 +95,6 @@ const NavSection = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  console.log(cartItems);
-
   return (
     <>
       <Navbar
@@ -99,7 +104,7 @@ const NavSection = () => {
         variant="dark"
         sticky="top"
       >
-        <Container>
+        <Container >
           <Navbar.Brand href="/">D-Valley</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -114,23 +119,21 @@ const NavSection = () => {
                 <Link to="/compare">Compare</Link>
               </Nav.Link>
               <NavDropdown title="Cart" id="collasible-nav-dropdown">
-                {cartItems.map((item) => (
-                  <tbody key={item._id}>
-                    <tr>
-                      <td>
-                        <Link to={`/products/${item.slug}`}>
-                          <img src={item.img} style={{ height: "30px" }} />
-                        </Link>
-                      </td>
-                      <td>
-                        <Link
-                          to={`/products/${item.slug}`}
-                          style={{ color: "blue" }}
-                        >
-                          {item.name}
-                        </Link>
-                      </td>
-                      <td className="td-buttons">
+                <ListGroup>
+                  {cartItems.map((item) => (
+                    <ListGroup.Item key={item._id} className="mt-1 d-flex">
+                      <Link to={`/products/${item.slug}`}>
+                        <img src={item.img} style={{ height: "30px" }} />
+                      </Link>
+
+                      <Link
+                        to={`/products/${item.slug}`}
+                        style={{ color: "blue" }}
+                      >
+                        {item.name}
+                      </Link>
+
+                      <div className="ms-auto">
                         <Button
                           onClick={() =>
                             handleUpdateCartItem(item, item.quantity - 1)
@@ -141,8 +144,7 @@ const NavSection = () => {
                           -
                         </Button>
                         <span>
-                          {" "}
-                          <Badge size="lg" className="p-1 mx-0">
+                          <Badge size="lg" className="p-2 mx-1">
                             {item.quantity}
                           </Badge>
                         </span>
@@ -155,19 +157,18 @@ const NavSection = () => {
                         >
                           +
                         </Button>
-                      </td>
-                      <td>
+
                         <Button
                           onClick={() => handleRemoveItem(item)}
                           variant="danger"
                         >
                           <BsXLg size="1em" />
                         </Button>
-                      </td>
-                    </tr>
-                  </tbody>
-                ))}
-                <Dropdown.Divider />
+                      </div>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+
                 <Link to={"/productcart"}>
                   <Button className="btn btn-info w-100">Go to Cart</Button>
                 </Link>
@@ -184,50 +185,38 @@ const NavSection = () => {
               </span>
               {/* //======================WishList=============================== */}
               <NavDropdown title="WishList" id="collasible-nav-dropdown">
-                {wishItems.map((item) => (
-                  <tbody key={item._id}>
-                    <tr>
-                      <td>
-                        <Link to={`/products/${item.slug}`}>
-                          <img src={item.img} style={{ height: "30px" }} />
-                        </Link>
-                      </td>
-                      <td>
-                        <Link
-                          to={`/products/${item.slug}`}
-                          style={{ color: "blue" }}
-                        >
-                          {item.name}
-                        </Link>
-                      </td>
-                      <td className="td-buttons">
-                        <span>
-                          {" "}
-                          <Badge size="lg" className="p-1 mx-0">
-                            {item.quantity}
-                          </Badge>
-                        </span>
-                      </td>
-                      <td>
+                <ListGroup>
+                  {wishItems.map((item) => (
+                    <ListGroup.Item key={item._id} className="mt-1 d-flex">
+                      <Link to={`/products/${item.slug}`}>
+                        <img src={item.img} style={{ height: "30px" }} />
+                      </Link>
+
+                      <Link
+                        to={`/products/${item.slug}`}
+                        style={{ color: "blue" }}
+                      >
+                        <span>{item.name}</span>
+                      </Link>
+
+                      <div className="ms-auto">
                         <Button
                           onClick={() => handleRemoveItemWish(item)}
                           variant="danger"
-                          className="mt-1"
+                          className="mx-1"
                         >
                           <BsXLg size="1em" />
                         </Button>
                         <Button
                           onClick={() => handleAddToCartFromWish(item)}
                           variant="info"
-                          className="ms-2"
                         >
-                          Add to cart
+                          Add cart
                         </Button>
-                      </td>
-                    </tr>
-                  </tbody>
-                ))}
-                <Dropdown.Divider />
+                      </div>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
                 <Link to={"/wishlist"}>
                   <Button className="btn btn-info w-100">Go to WishList</Button>
                 </Link>

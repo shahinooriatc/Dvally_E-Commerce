@@ -113,23 +113,22 @@ const reducerShipping = (state, action) => {
   switch (action.type) {
     case "SHIPPING_ADDRESS":
       return { ...state, shippingaddress: action.payload };
-
     default:
       return state;
   }
 };
 
+
 //PaymentMethod Reducer...................
 const initialStatePaymentMethod = {
   paymentMethod: localStorage.getItem("paymentMethod")
     ? JSON.parse(localStorage.getItem("paymentMethod"))
-    : '',
+    : "",
 };
 const reducerPaymentMethod = (state, action) => {
-  console.log(action.payload);
   switch (action.type) {
     case "PAYMENT_METHOD":
-      return { ...state, paymentMethod: action.payload }
+      return { ...state, paymentMethod: action.payload };
     default:
       return state;
   }

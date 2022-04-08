@@ -8,9 +8,6 @@ const Payment = () => {
     const { statePaymentMethod, dispatchPaymentMethod } = useContext(Store);
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState(statePaymentMethod.paymentMethod?statePaymentMethod.paymentMethod:"");
-
-
-  console.log(statePaymentMethod);
   
   const handlePaymentMethod = (e) => {
     e.preventDefault();
@@ -41,7 +38,7 @@ const Payment = () => {
                   label="PayPal"
                   value="paypal"
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  checked={paymentMethod == "paypal"}
+                  checked={paymentMethod === "paypal"}
                 />
               </h5>
 
@@ -52,7 +49,7 @@ const Payment = () => {
                   label="Sslcommerce"
                   value="sslcommerce"
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  checked={paymentMethod == "sslcommerce"}
+                  checked={paymentMethod === "sslcommerce"}
                 />
               </h5>
               <h5>
@@ -62,7 +59,7 @@ const Payment = () => {
                   label="Strip"
                   value="strip"
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  checked={paymentMethod == "strip"}
+                  checked={paymentMethod === "strip"}
                 />
               </h5>
             </Form>

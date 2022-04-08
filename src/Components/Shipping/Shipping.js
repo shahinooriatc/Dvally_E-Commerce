@@ -51,17 +51,14 @@ const Shipping = () => {
           })
         );
         navigate("/payment");
-      }else{
-        toast.error('Please Enter Valid Name & Address ')
+      } else {
+        toast.error("Please Enter Valid Name & Address ");
       }
-    }  
-    else {
-      toast.error("All Input Fields are required!")      
-  }
-  }
+    } else {
+      toast.error("All Input Fields are required!");
+    }
+  };
 
-
-  
   useEffect(() => {
     if (!userInfo) {
       navigate("/login?redirect=/shipping");
@@ -77,7 +74,9 @@ const Shipping = () => {
           <Row>
             <Col xs={6}>
               <div style={{ textAlign: "center" }}>
-                <BsCurrencyDollar fontSize="4em" />
+                <Link to="/productcart">
+                  <Button className="w-100">Back To Cart</Button>
+                </Link>
                 <h1 style={{ textAlign: "center", marginTop: "25px" }}>
                   User Shipping Address
                 </h1>
