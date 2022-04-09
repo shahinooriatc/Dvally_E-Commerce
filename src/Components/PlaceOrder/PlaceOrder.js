@@ -26,11 +26,13 @@ const PlaceOrder = () => {
 
   const { shippingaddress } = stateShipping;
 
+  // Modal Button Show Hide & Close states.......
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleClose2 = () => setShow2(false);
+
   const handleShow = () => setShow(true);
   const handleShow2 = () => setShow2(true);
 
