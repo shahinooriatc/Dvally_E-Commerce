@@ -78,12 +78,12 @@ const NavSection = () => {
 
   const handleSignOut = () => {
     dispatchUserSignIn({
-      type: "USER_SIGNOUT",      
+      type: "USER_SIGNOUT",
     });
     dispatchShipping({
-      type:"SHIPPING_ADDRESS",
-      payload:{}
-    })
+      type: "SHIPPING_ADDRESS",
+      payload: {},
+    });
 
     localStorage.removeItem("userInfo");
     localStorage.removeItem("shippingaddress");
@@ -104,7 +104,7 @@ const NavSection = () => {
         variant="dark"
         sticky="top"
       >
-        <Container >
+        <Container>
           <Navbar.Brand href="/">D-Valley</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -259,7 +259,15 @@ const NavSection = () => {
         onClick={handleShow}
         className="me-2 sidecart"
       >
-        <BsCart4 size="2em" />
+        <span className="side_cart">
+          <BsCart4 size="2em" />
+
+          {cartItems.length > 0 ? (
+            <span className="side_cart_item">{cartItems.length}</span>
+          ) : (
+            ""
+          )}
+        </span>
       </Button>
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>

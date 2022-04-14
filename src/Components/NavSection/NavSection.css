@@ -10,43 +10,30 @@
   position: relative;
 }
 
-
-
-
-
 .navbarSection_container {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-
   padding: 5px;
 }
-
 .navmenu a {
   /* margin-left: 25px; */
   color: #fff;
   text-decoration: none;
 }
-
 .navbar-expand .navbar-nav .dropdown-menu {
   position: absolute;
   width: 550px;
 }
-
-
-
 .dropdown-menu.show {
   display: block;
   width: 310px;
 }
-
 .sidecart {
   position: fixed;
   top: 50%;
   right: 0;
-  
 }
-
 .cart_item {
   height: 35px;
   margin-left: -32px;
@@ -56,4 +43,20 @@
   height: 100%;
   font-size: 20px;
   border-radius: 30%;
+}
+.side_cart {
+  position: relative;
+}
+.side_cart_item {
+  height: 29px;
+  width: 27px;
+  background-color: #010203;
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: -15px;
+  left: 4px;
+  border: 2px solid #ffffff;
+  line-height: 25px;
+  text-align: center;
 }

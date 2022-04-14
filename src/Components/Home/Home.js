@@ -21,14 +21,14 @@ const Home = () => {
     useEffect(() => {
         const handleCategoryMatch = async () => {
             const { data } = await axios.get('/discount')
-            setShowDiscount(data);
+            setShowDiscount(data)
             setShow(true)
 
             const allProduct = await axios.get('/products')
             let categoryArr = []
             allProduct.data.map((item) => {
 
-                if (categoryArr.indexOf(item.category) == -1) {
+                if (categoryArr.indexOf(item.category) === -1) {
                     categoryArr.push(item.category)
                 }
             })
@@ -52,8 +52,8 @@ const Home = () => {
 
                 <Container>
                     <div className='category' style={{ width: '300px', minHeigth: '500px' }}>
-                        {allCategory.map((item, primary) => (
-                            <ListGroup key={primary}>
+                        {allCategory.map((item, index) => (
+                            <ListGroup key={index}>
                                 <ListGroup.Item onClick={() => handleLoadCategory(item)}>{item}<BsArrowRight size='2em' /></ListGroup.Item>
                             </ListGroup>
                         ))

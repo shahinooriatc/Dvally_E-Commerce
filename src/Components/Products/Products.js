@@ -63,8 +63,9 @@ const Products = () => {
   } = useContext(Store);
   const { cart } = state;
 
+
   let handleAddToCart = async (product) => {
-    const existingItem = cart.cartItems.find((item) => item._id == product._id);
+    const existingItem = cart.cartItems.find((item) => item._id === product._id);
     const quantity = existingItem ? existingItem.quantity + 1 : 1;
     const { data } = await axios.get(`/productcart/${product._id}`);
     if (data.stock < quantity) {
@@ -379,7 +380,7 @@ const Products = () => {
                       </Link>
                       <Link to="/" className="w-100">
                         <Button variant="outline-primary" className="w-50">
-                          {" "}
+                       
                           Place Order
                         </Button>
                       </Link>
