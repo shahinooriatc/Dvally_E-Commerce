@@ -51,12 +51,12 @@
   height: 29px;
   width: 27px;
   background-color: #010203;
-  color: white;
+  color: orangered;
   border-radius: 50%;
   position: absolute;
   top: -15px;
   left: 4px;
-  border: 2px solid #ffffff;
+  border: 2px solid orange;
   line-height: 25px;
   text-align: center;
 }

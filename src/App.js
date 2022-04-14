@@ -18,7 +18,6 @@ import PlaceOrder from "./Components/PlaceOrder/PlaceOrder";
 
 function App() {
 
-
   return (
     <>
       <BrowserRouter>
