@@ -2,7 +2,11 @@
 # Live Site Link:
 https://peaceful-alfajores-5ed5be.netlify.app/
 
+
+
+![dvallyproduct](https://github.com/shahinooriatc/Dvally_E-Commerce/blob/payment/public/images/dvallyproduct.PNG)
 ![dvally site](https://github.com/shahinooriatc/Dvally_E-Commerce/blob/payment/public/images/dvally%20site.PNG)
+![dvallyshipping](https://github.com/shahinooriatc/Dvally_E-Commerce/blob/payment/public/images/dvallyshipping.PNG)
 ## Available Scripts
 
 In the project directory, you can run:
