@@ -34,6 +34,7 @@ function loadProducts(state, action) {
 
 const CategoryWishProduct = (props) => {
   const { data } = props.category;
+  console.log(data);
   const [{ loading, error, products }, dispatch] = useReducer(loadProducts, {
     loading: false,
     error: "",
@@ -62,9 +63,12 @@ const CategoryWishProduct = (props) => {
   } = useContext(Store);
   const { cart } = state;
   const { wish } = stateWish;
- 
+
   let handleAddToCart = async (product) => {
-    const existingItem = cart.cartItems.find((item) => item._id == product._id);
+    console.log(product);
+    const existingItem = cart.cartItems.find(
+      (item) => item._id === product._id
+    );
     const quantity = existingItem ? existingItem.quantity + 1 : 1;
     const { data } = await axios.get(`/productcart/${product._id}`);
     if (data.stock < quantity) {
@@ -86,6 +90,7 @@ const CategoryWishProduct = (props) => {
   const handleShow = () => setShow(true);
 
   const handleDetails = async (detail) => {
+    console.log(details);
     handleShow(true);
     const detailProduct = await axios.get(`/products/${detail}`);
     setDetails(detailProduct.data);
@@ -135,11 +140,7 @@ const CategoryWishProduct = (props) => {
           ) : (
             data &&
             data.map((item) => (
-              <Col
-                key={item._id}
-                lg={3}
-                style={{ marginTop: "10px", height: "520px" }}
-              >
+              <Col lg={3} style={{ marginTop: "10px", height: "520px" }}>
                 <Card>
                   <Card.Img
                     className="productImg"
@@ -203,7 +204,7 @@ const CategoryWishProduct = (props) => {
                                     )
                                   }
                                   variant="outline-success"
-                                  disabled={items.quantity == item.stock}
+                                  disabled={items.quantity === item.stock}
                                 >
                                   +
                                 </Button>
@@ -259,8 +260,11 @@ const CategoryWishProduct = (props) => {
                         >
                           Details
                         </Button>
-                      
-                        <Button variant="outline-danger"  onClick={() => handleAddToWish(item)}>
+
+                        <Button
+                          variant="outline-danger"
+                          onClick={() => handleAddToWish(item)}
+                        >
                           <BsFillHeartFill />
                         </Button>
                       </>
