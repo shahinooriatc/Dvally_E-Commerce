@@ -65,6 +65,7 @@ const Products = () => {
 
 
   let handleAddToCart = async (product) => {
+    console.log(product._id);
     const existingItem = cart.cartItems.find((item) => item._id === product._id);
     const quantity = existingItem ? existingItem.quantity + 1 : 1;
     const { data } = await axios.get(`/productcart/${product._id}`);
@@ -95,7 +96,7 @@ const Products = () => {
 
   //Product WishList Here.........
   const handleAddToWish = (product) => {
-    console.log(product);
+    
     dispatchWish({
       type: "ADD_TO_WISH",
       payload: { ...product },
