@@ -15,6 +15,7 @@ import Shipping from "./Components/Shipping/Shipping";
 import Payment from "./Components/Payment/Payment";
 import CheckoutStep from "./Components/CheckoutStep/CheckoutStep";
 import PlaceOrder from "./Components/PlaceOrder/PlaceOrder";
+import Order from "./Components/Order/Order";
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
           <Route path="payment" element={<Payment />} />
           <Route path="checkoutstep" element={<CheckoutStep />} />
           <Route path="placeorder" element={<PlaceOrder />} />
+          <Route path="orders/:id" element={<Order />} />
         </Routes>
       </BrowserRouter>
     </>

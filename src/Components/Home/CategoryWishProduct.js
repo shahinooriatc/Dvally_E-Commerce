@@ -34,7 +34,6 @@ function loadProducts(state, action) {
 
 const CategoryWishProduct = (props) => {
   const { data } = props.category;
-  console.log(data);
   const [{ loading, error, products }, dispatch] = useReducer(loadProducts, {
     loading: false,
     error: "",
@@ -140,7 +139,7 @@ const CategoryWishProduct = (props) => {
           ) : (
             data &&
             data.map((item) => (
-              <Col lg={3} style={{ marginTop: "10px", height: "520px" }}>
+              <Col lg={3} style={{ marginTop: "10px", height: "505px" }}>
                 <Card>
                   <Card.Img
                     className="productImg"

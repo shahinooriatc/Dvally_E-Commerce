@@ -1,4 +1,6 @@
-import React, { useContext, useState } from "react";
+import axios from "axios";
+import { Toast } from "bootstrap";
+import React, { useContext, useReducer, useState } from "react";
 import {
   Alert,
   Button,
@@ -10,22 +12,41 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Store } from "../../Store";
 import CartPage from "../CartPage/CartPage";
 import CheckoutStep from "../CheckoutStep/CheckoutStep";
 
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "CREATE_REQUEST":
+      return { ...state, loading: true };
+    case "CREATE_SUCCESS":
+      return { ...state, loading: false };
+    case "CREATE_FAIL":
+      return { ...state, loading: false };
+    default:
+      return { state };
+  }
+};
+
 const PlaceOrder = () => {
+const navigate = useNavigate()
+
   const {
+    state,
+    dispatch: contDispatch,
     stateUserSignIn,
     stateShipping,
     dispatchShipping,
     statePaymentMethod,
+    dispatchPaymentMethod,
   } = useContext(Store);
 
   const { shippingaddress } = stateShipping;
-
+  const { cartItems } = state.cart;
   // Modal Button Show Hide & Close states.......
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
@@ -50,6 +71,18 @@ const PlaceOrder = () => {
   const [country, setCountry] = useState(
     stateShipping.shippingaddress.country || ""
   );
+
+  let totalOrders = cartItems.reduce(
+    (accumulator, current) => accumulator + current.quantity,
+    0
+  );
+  let totalAmount = cartItems.reduce(
+    (accumulator, current) => accumulator + current.price * current.quantity,
+    0
+  );
+  let totalTax = totalAmount > 300 ? (totalAmount * 10) / 100 : 10;
+  let shippingCharge = totalAmount > 300 ? (totalAmount * 5) / 100 : 25;
+  let grandTotal = (totalAmount + totalTax + shippingCharge).toFixed(2);
 
   const handleContinuePayment = (e) => {
     e.preventDefault();
@@ -84,7 +117,6 @@ const PlaceOrder = () => {
     }
   };
 
-  const { dispatchPaymentMethod } = useContext(Store);
   const [paymentMethod, setPaymentMethod] = useState(
     statePaymentMethod.paymentMethod ? statePaymentMethod.paymentMethod : ""
   );
@@ -94,12 +126,45 @@ const PlaceOrder = () => {
     dispatchPaymentMethod({
       type: "PAYMENT_METHOD",
       payload: paymentMethod,
-    })
+    });
     localStorage.setItem("paymentMethod", JSON.stringify(paymentMethod));
-    setShow2(false)
+    setShow2(false);
   };
 
+  const [{ loading, error }, dispatch] = useReducer(reducer, {
+    loading: false,
+    error: "",
+  });
+
+ 
+  const handlePlaceOrder = async () => {
   
+    try {
+      const { data } = await axios.post(
+        "api/orders",
+        {
+          orderItems: state.cart.cartItems,
+          shippingAddress: shippingaddress,
+          paymentMethod: paymentMethod,
+          productPrice: totalAmount,
+          shippingPrice: shippingCharge,
+          taxAmount: totalTax,
+          totalPrice: grandTotal,        
+        },
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      contDispatch({ type: "CLEAR_CART" });
+      dispatch({ type: "CREATE_SUCCESS" });
+      localStorage.removeItem('cartItems')
+      console.log(data);
+      navigate(`/orders/${data.order._id}`)
+    } catch (err) {
+      dispatch({ type: "CREATE_FAIL" });
+      toast.error(err)
+    }
+  };
 
   return (
     <>
@@ -107,11 +172,9 @@ const PlaceOrder = () => {
       <Container className="mt-3">
         <Row>
           <Col lg={8}>
-           
-            <CartPage placeOrderPage={true}/>
-
+            <CartPage placeOrderPage={true} />
           </Col>
-        
+
           <Col lg={4}>
             <Row>
               <Col lg={12}>
@@ -300,7 +363,9 @@ const PlaceOrder = () => {
             </Row>
           </Col>
         </Row>
-        <Button className="mt-1 py-3 w-100">Place Order</Button>
+        <Button className="mt-1 py-3 w-100" onClick={handlePlaceOrder}>
+          Place Order
+        </Button>
       </Container>
     </>
   );

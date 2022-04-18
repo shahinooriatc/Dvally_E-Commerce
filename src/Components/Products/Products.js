@@ -65,7 +65,6 @@ const Products = () => {
 
 
   let handleAddToCart = async (product) => {
-    console.log(product._id);
     const existingItem = cart.cartItems.find((item) => item._id === product._id);
     const quantity = existingItem ? existingItem.quantity + 1 : 1;
     const { data } = await axios.get(`/productcart/${product._id}`);
@@ -174,7 +173,7 @@ const Products = () => {
                 <Col
                   key={item._id}
                   lg={3}
-                  style={{ marginTop: "10px", height: "520px" }}
+                  style={{ marginTop: "10px", height: "505px" }}
                 >
                   <Card>
                     <Card.Img
