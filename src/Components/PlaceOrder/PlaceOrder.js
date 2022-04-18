@@ -18,7 +18,6 @@ import { Store } from "../../Store";
 import CartPage from "../CartPage/CartPage";
 import CheckoutStep from "../CheckoutStep/CheckoutStep";
 
-
 const reducer = (state, action) => {
   switch (action.type) {
     case "CREATE_REQUEST":
@@ -33,7 +32,7 @@ const reducer = (state, action) => {
 };
 
 const PlaceOrder = () => {
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     state,
@@ -136,9 +135,7 @@ const navigate = useNavigate()
     error: "",
   });
 
- 
   const handlePlaceOrder = async () => {
-  
     try {
       const { data } = await axios.post(
         "api/orders",
@@ -149,7 +146,7 @@ const navigate = useNavigate()
           productPrice: totalAmount,
           shippingPrice: shippingCharge,
           taxAmount: totalTax,
-          totalPrice: grandTotal,        
+          totalPrice: grandTotal,
         },
         {
           headers: { authorization: `Bearer ${userInfo.token}` },
@@ -157,12 +154,11 @@ const navigate = useNavigate()
       );
       contDispatch({ type: "CLEAR_CART" });
       dispatch({ type: "CREATE_SUCCESS" });
-      localStorage.removeItem('cartItems')
-      console.log(data);
-      navigate(`/orders/${data.order._id}`)
+      localStorage.removeItem("cartItems");
+      navigate(`/orders/${data.order._id}`);
     } catch (err) {
       dispatch({ type: "CREATE_FAIL" });
-      toast.error(err)
+      toast.error(err);
     }
   };
 

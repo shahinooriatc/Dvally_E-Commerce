@@ -64,7 +64,6 @@ const CategoryWishProduct = (props) => {
   const { wish } = stateWish;
 
   let handleAddToCart = async (product) => {
-    console.log(product);
     const existingItem = cart.cartItems.find(
       (item) => item._id === product._id
     );
