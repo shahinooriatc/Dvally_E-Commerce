@@ -57,7 +57,7 @@ const Order = () => {
           const { data } = await axios.get(`/api/orders/${orderID}`, {
             headers: { authorization: `Bearer ${userInfo.token}` },
           });
-          console.log(data);
+
           dispatch({ type: "FETCH_SUCCESS", payload: data });
         } catch (error) {
           dispatch({ type: "FETCH_FAIL", payload: error });
@@ -119,17 +119,15 @@ const Order = () => {
                           order.orderItems.map((item) => (
                             <ListGroup.Item>
                               <Row>
-                              <Col lg={3}>
-                              <img src={item.img} alt="" />
-                              </Col>
+                                <Col lg={3}>
+                                  <img className="w-50" src={item.img} alt="" />
+                                </Col>
                                 <Col lg={6}>
-                                  
                                   <Link to={`/products/${item.slug}`}>
                                     {item.name}
                                   </Link>
                                 </Col>
-                                <Col lg={3}>fsdfs</Col>
-                                
+                                <Col lg={3}>{item.price}</Col>
                               </Row>
                             </ListGroup.Item>
                           ))}
@@ -146,11 +144,11 @@ const Order = () => {
                     </Card.Title>
                     <Card.Text>
                       <Row>
-                        <Col>Products</Col>
+                        <Col>Products Price</Col>
                         <Col>$ {order.productPrice}</Col>
                       </Row>
                       <Row>
-                        <Col> Items</Col>
+                        <Col>Shipping Charges</Col>
                         <Col>$ {order.shippingPrice}</Col>
                       </Row>
                       <Row>
