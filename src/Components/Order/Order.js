@@ -6,11 +6,14 @@ import {
   Card,
   Col,
   Container,
+  Dropdown,
   ListGroup,
   Row,
 } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Store } from "../../Store";
+import { usePayPalScriptReducer, PayPalButtons } from "@paypal/react-paypal-js";
+import { toast } from "react-toastify";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -37,11 +40,14 @@ function reducer(state, action) {
 const Order = () => {
   const navigate = useNavigate();
 
-  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
-    loading: false,
-    error: "",
-    order: {},
-  });
+  const [{ loading, error, order, successPay, loadingPay }, dispatch] =
+    useReducer(reducer, {
+      loading: false,
+      error: "",
+      order: {},
+      successPay: false,
+      loadingPay: false,
+    });
 
   const { stateUserSignIn } = useContext(Store);
   const { userInfo } = stateUserSignIn;
@@ -49,8 +55,43 @@ const Order = () => {
   const params = useParams();
   const { id: orderID } = params;
 
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  const createOrder = (data, actions) => {
+    return actions.order
+      .create({
+        purchase_unit: [
+          {
+            amount: { value: order.totalPrice },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID;
+      });
+  };
+  const onApprove = (data, actions) => {
+    return actions.order.capture().then(async function (details){
+      try {
+        dispatch({ type: "PAYPAL_REQUEST"});
+        const { data } = await axios.put(`/api/orders/${order._id}/pay`,details,
+                  {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          }        )
+        dispatch({ type: "PAYPAL_SUCCESS",payload:data});
+        toast.success("Payment Successfully Done");
+      } catch (error) {
+        dispatch({ type: "PAY_FAIL", payload: error.message });
+        toast.error(error.message);
+      }
+    });
+  };
+  const onError = (error) => {
+    toast.error(error.message);
+  };
+
   useEffect(() => {
-    if (!order._id || (order._id && order._id !== orderID)) {
+    if (!order._id || successPay || (order._id && order._id !== orderID)) {
       const fetchOrder = async () => {
         try {
           dispatch({ type: "FETCH_REQUEST" });
@@ -64,10 +105,29 @@ const Order = () => {
         }
       };
       fetchOrder();
+      if (successPay) {
+        dispatch({ type: "PAY_RESET" });
+      }
+    } else {
+      const loadPaypalScript = async () => {
+        const { data: clientId } = await axios.get("/api/keys/paypal", {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        });
+        paypalDispatch({
+          type: "resetOptions",
+          value: {
+            "client-id": clientId,
+            currency: "USD",
+          },
+        });
+        paypalDispatch({
+          type: "setLoadingStatus",
+          value: "pending",
+        });
+      };
+      loadPaypalScript();
     }
-  }, [order, userInfo, orderID, navigate]);
-
-  console.log(order);
+  }, [order, userInfo, orderID, navigate, paypalDispatch, successPay]);
 
   return (
     <React.Fragment>
@@ -100,7 +160,6 @@ const Order = () => {
                       {order.shippingAddress && order.shippingAddress.country}{" "}
                       <br />
                     </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
                   </Card.Body>
                 </Card>
                 <Card>
@@ -112,7 +171,7 @@ const Order = () => {
 
                 <Card>
                   <Card.Body>
-                    <Card.Title>Orderd Items</Card.Title>
+                    <Card.Title>Ordered Items</Card.Title>
                     <Card.Text>
                       <ListGroup>
                         {order.orderItems &&
@@ -154,6 +213,29 @@ const Order = () => {
                       <Row>
                         <Col>Tax Amount</Col>
                         <Col>$ {order.taxAmount}</Col>
+                      </Row>
+                      <Dropdown.Divider />
+                      <Row>
+                        <Col>
+                          {" "}
+                          <b>Total Price</b>
+                        </Col>
+                        <Col>$ {order.totalPrice}</Col>
+                      </Row>
+                      <Row>
+                        <h3>Payment Paypal</h3>
+                        {!order.isPaid && isPending ? (
+                          <h3>Loading.........</h3>
+                        ) : (
+                          <Col>
+                            <PayPalButtons
+                              createOrder={createOrder}
+                              onApprove={onApprove}
+                              onError={onError}
+                            ></PayPalButtons>
+                          </Col>
+                        )}
+                        {loadingPay && <h3>Payment Loading...</h3>}
                       </Row>
                     </Card.Text>
                   </Card.Body>
