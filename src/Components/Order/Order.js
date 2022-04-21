@@ -60,7 +60,7 @@ const Order = () => {
   const createOrder = (data, actions) => {
     return actions.order
       .create({
-        purchase_unit: [
+        purchase_units: [
           {
             amount: { value: order.totalPrice },
           },
@@ -71,14 +71,17 @@ const Order = () => {
       });
   };
   const onApprove = (data, actions) => {
-    return actions.order.capture().then(async function (details){
+    return actions.order.capture().then(async function (details) {
       try {
-        dispatch({ type: "PAYPAL_REQUEST"});
-        const { data } = await axios.put(`/api/orders/${order._id}/pay`,details,
-                  {
+        dispatch({ type: "PAYPAL_REQUEST" });
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/pay`,
+          details,
+          {
             headers: { authorization: `Bearer ${userInfo.token}` },
-          }        )
-        dispatch({ type: "PAYPAL_SUCCESS",payload:data});
+          }
+        );
+        dispatch({ type: "PAYPAL_SUCCESS", payload: data });
         toast.success("Payment Successfully Done");
       } catch (error) {
         dispatch({ type: "PAY_FAIL", payload: error.message });
@@ -129,6 +132,8 @@ const Order = () => {
     }
   }, [order, userInfo, orderID, navigate, paypalDispatch, successPay]);
 
+  console.log(order);
+
   return (
     <React.Fragment>
       <Container>
@@ -178,14 +183,17 @@ const Order = () => {
                           order.orderItems.map((item) => (
                             <ListGroup.Item>
                               <Row>
-                                <Col lg={3}>
-                                  <img className="w-50" src={item.img} alt="" />
-                                </Col>
-                                <Col lg={6}>
-                                  <Link to={`/products/${item.slug}`}>
+                                  <Col lg={3}>
+                                <Link to={`/products/${item.slug}`}>
+                                    <img
+                                      className="w-50"
+                                      src={item.img}
+                                      alt=""
+                                    />
                                     {item.name}
-                                  </Link>
-                                </Col>
+                                </Link>
+                                  </Col>
+
                                 <Col lg={3}>{item.price}</Col>
                               </Row>
                             </ListGroup.Item>
