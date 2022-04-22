@@ -134,11 +134,12 @@ const Order = () => {
     }
   }, [order, userInfo, orderID, navigate, paypalDispatch, successPay]);
 
+
   // ---------------Strips Payment HandleFunction------------
   const handleStripToken = async ()=>{
     try {
       dispatch({ type: "FETCH_REQUEST" });
-      const { data } = await axios.get(`/api/orders/${orderID}/stripe`, {
+      const { data } = await axios.get(`/api/orders/${orderID}`, {
         headers: { authorization: `Bearer ${userInfo.token}` },
       });
 
@@ -148,7 +149,6 @@ const Order = () => {
     }
   }
 
-  console.log(order);
 
   return (
     <React.Fragment>

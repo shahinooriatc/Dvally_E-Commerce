@@ -151,7 +151,7 @@ const Products = () => {
           ) : (
             products
               .filter((item) => {
-                if (searchText == "") {
+                if (searchText === "") {
                   return item;
                 } else if (
                   item.name.toLowerCase().includes(searchText.toLowerCase())
@@ -209,7 +209,7 @@ const Products = () => {
 
                       <Table striped bordered hover>
                         {cart.cartItems.map((items) =>
-                          items._id == item._id ? (
+                          items._id === item._id ? (
                             <tbody key={items._id}>
                               <tr>
                                 <td>
@@ -238,7 +238,7 @@ const Products = () => {
                                       )
                                     }
                                     variant="outline-success"
-                                    disabled={items.quantity == item.stock}
+                                    disabled={items.quantity === item.stock}
                                   >
                                     +
                                   </Button>
