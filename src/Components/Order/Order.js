@@ -12,7 +12,9 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Store } from "../../Store";
-import { usePayPalScriptReducer, PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import StripeCheckout from "react-stripe-checkout";
+
 import { toast } from "react-toastify";
 
 function reducer(state, action) {
@@ -132,6 +134,20 @@ const Order = () => {
     }
   }, [order, userInfo, orderID, navigate, paypalDispatch, successPay]);
 
+  // ---------------Strips Payment HandleFunction------------
+  const handleStripToken = async ()=>{
+    try {
+      dispatch({ type: "FETCH_REQUEST" });
+      const { data } = await axios.get(`/api/orders/${orderID}/stripe`, {
+        headers: { authorization: `Bearer ${userInfo.token}` },
+      });
+
+      dispatch({ type: "FETCH_SUCCESS", payload: data });
+    } catch (error) {
+      dispatch({ type: "FETCH_FAIL", payload: error });
+    }
+  }
+
   console.log(order);
 
   return (
@@ -180,19 +196,19 @@ const Order = () => {
                     <Card.Text>
                       <ListGroup>
                         {order.orderItems &&
-                          order.orderItems.map((item) => (
-                            <ListGroup.Item>
+                          order.orderItems.map((item, index) => (
+                            <ListGroup.Item key={index}>
                               <Row>
-                                  <Col lg={3}>
-                                <Link to={`/products/${item.slug}`}>
+                                <Col lg={3}>
+                                  <Link to={`/products/${item.slug}`}>
                                     <img
                                       className="w-50"
                                       src={item.img}
                                       alt=""
                                     />
                                     {item.name}
-                                </Link>
-                                  </Col>
+                                  </Link>
+                                </Col>
 
                                 <Col lg={3}>{item.price}</Col>
                               </Row>
@@ -231,16 +247,27 @@ const Order = () => {
                         <Col>$ {order.totalPrice}</Col>
                       </Row>
                       <Row>
-                        <h3>Payment Paypal</h3>
+                        <h3>Payment Gateway</h3>
                         {!order.isPaid && isPending ? (
                           <h3>Loading.........</h3>
                         ) : (
                           <Col>
+                          {order.paymentMethod === 'paypal' && 
                             <PayPalButtons
                               createOrder={createOrder}
                               onApprove={onApprove}
                               onError={onError}
                             ></PayPalButtons>
+                          }
+                          {order.paymentMethod ==='strip' &&
+                            <StripeCheckout
+                            token={handleStripToken}
+                            stripeKey='pk_test_51KrIb8BTuoT2QIWoqn6nsqlRbWAGh53EBwsoVcEWPC9Rj95NFsbSopQXGj5KKauFF0YHzi8ch1gZ9GHlRQAdjkpG00Yye305Th'
+                            panelLabel='Payment'
+                            currency='USD'
+                            amount={order.totalPrice* 100}
+                            />
+                          }
                           </Col>
                         )}
                         {loadingPay && <h3>Payment Loading...</h3>}
